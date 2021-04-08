@@ -1,51 +1,51 @@
 ## users テーブル
-| Column                | Type     | Options     |
-| --------------------- | -------- | ----------- |
-| nickname              | string   | null: false |
-| email                 |
-| password              |
-| password_confirmation |
-| last_name             |
-| first_name            |
-| last_name_kana        |
-| first_name_kana       |
-| birth_date            |
+| Column                | Type     | Options                    |
+| --------------------- | -------- | -------------------------- |
+| nickname              | string   | null: false , unique: true |
+| email                 | string   | null: false , unique: true |
+| password              | string   | null: false                |
+| last_name             | string   | null: false                |
+| first_name            | string   | null: false                |
+| last_name_kana        | string   | null: false                |
+| first_name_kana       | string   | null: false                |
+| birth_date            | date     | null: false                |
 
 ### Association
 - has_many :items
-- has_many :purchases
+- has_many :orders
 
 ## items テーブル
-| Column             | Type      | Options          |
-| ------------------ | --------- | ---------------- |
-| image              | 
-| item_name          |
-| item_info          |
-| category           |
-| status             |
-| shipping_fee       |
-| item_prefecture    |
-| scheduled_delivery |
-| price              |
+| Column      | Type       | Options           |
+| ----------- | ---------- | ----------------- |
+| item_name   | string     | null: false       |
+| item_info   | text       | null: false       |
+| price       | integer    | null: false       |
+| user_id     | references | foreign_key: true |
 
 ### Association
 - belongs_to :user
-- has_one :purchase
+- has_one :order
 
-## purchases テーブル
-| Column             | Type      | Options         |
-| ------------------ | --------- | --------------- |
-| credit_number      |
-| expiration_month   |
-| expiration_year    |
-| cvc                |
-| postal_code        |
-| prefecture         |
-| city               |
-| address            |
-| building           |
-| phone_number       |
+## orders テーブル
+| Column      | Type       | Options           |
+| ----------- | ---------- | ----------------- |
+| item_id     | references | foreign_key: true |
+| user_id     | references | foreign_key: true |
 
 ### Association
 - belongs_to :user
 - belongs_to :item
+- has_one :address
+
+## address テーブル
+| Column             | Type       | Options           |
+| ------------------ | ---------- | ----------------- |
+| postal_code        | integer    | null: false       |
+| city               | string     | null: false       |
+| address            | string     | null: false       |
+| building           | string     | null: false       |
+| phone_number       | integer    | null: false       |
+| order_id           | references | foreign_key: true |
+
+### Association
+- belongs_to :order
