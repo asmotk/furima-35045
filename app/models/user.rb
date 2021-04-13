@@ -18,9 +18,6 @@ class User < ApplicationRecord
                               format: { with: /\A[ァ-ヶー－]+\z/
                               }
   validates :birth_date, presence: true
-
-  validates :email, format: { with: /\A[a-zA-Z0-9_\#!$%&`'*+\-{|}~^\/=?\.]+@[a-zA-Z0-9][a-zA-Z0-9\.-]+\z/ }
-  validates :password, confirmation: true,
-                       format: { with: /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/i }
+  validates :password, format: { with: /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/i }
 
 end
