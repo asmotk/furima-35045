@@ -99,12 +99,12 @@ RSpec.describe Item, type: :model do
       it 'priceが半角英数混合では出品できない' do
         @item.price = '123abc'
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price is not a number")
+        expect(@item.errors.full_messages).to include('Price is not a number')
       end
       it 'priceが半角英語だけでは出品できない' do
         @item.price = 'aaaaaaa'
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price is not a number")
+        expect(@item.errors.full_messages).to include('Price is not a number')
       end
       it 'priceが300未満では出品できない' do
         @item.price = 200
@@ -112,7 +112,7 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include('Price must be greater than or equal to 300')
       end
       it 'priceが9999999より大きいと出品できない' do
-        @item.price = 100000000
+        @item.price = 100_000_000
         @item.valid?
         expect(@item.errors.full_messages).to include('Price must be less than or equal to 9999999')
       end
