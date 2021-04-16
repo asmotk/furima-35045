@@ -1,7 +1,7 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_item, only: [:show, :edit, :update, :destroy]
-  before_action :go_index, only: [:edit, :update, :destroy]
+  before_action :go_toppage, only: [:edit, :update, :destroy]
 
   def index
     @items = Item.all.order('created_at DESC')
@@ -50,9 +50,10 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
   end
 
-  def go_index
+  def go_toppage
     if current_user.id != @item.user_id
       redirect_to root_path
     end
   end
 end
+
