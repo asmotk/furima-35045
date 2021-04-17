@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
-  before_action :authenticate_user!, only: :index
-  before_action :go_toppage, only: :index
+  before_action :authenticate_user!, only: [:index, :create]
+  before_action :go_toppage, only: [:index, :create]
 
   def index
     @item = Item.find(params[:item_id])
