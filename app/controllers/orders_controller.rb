@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!, only: [:index, :create]
   before_action :go_toppage, only: [:index, :create]
+  before_action :go_toppage2, only: :index
 
   def index
     @item = Item.find(params[:item_id])
@@ -8,8 +9,8 @@ class OrdersController < ApplicationController
   end
 
   def create
-    @item = Item.find(params[:item_id])
-    @order_address = OrderAddress.new(order_params)
+      @item = Item.find(params[:item_id])
+      @order_address = OrderAddress.new(order_params)
     if @order_address.valid?
       pay_item
       @order_address.save
@@ -39,6 +40,13 @@ class OrdersController < ApplicationController
       card: order_params[:token],
       currency: 'jpy'
     )
+  end
+
+  def go_toppage2
+    @item = Item.find(params[:item_id])
+    if @item.order.present?
+      redirect_to root_path
+    end
   end
 
 end
