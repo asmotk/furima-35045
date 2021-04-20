@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!, only: [:index, :create]
+  before_action :set_item, only: [:index, :create]
   before_action :go_toppage, only: [:index, :create]
-  before_action :set_item, only: [:index, :create, :go_toppage]
 
   def index
     @order_address = OrderAddress.new
@@ -21,7 +21,6 @@ class OrdersController < ApplicationController
   private
 
   def go_toppage
-    set_item
     if current_user.id == @item.user_id || @item.order.present?
       redirect_to root_path
     end
