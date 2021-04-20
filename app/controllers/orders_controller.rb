@@ -1,14 +1,13 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!, only: [:index, :create]
   before_action :go_toppage, only: [:index, :create]
+  before_action :set_item, only: [:index, :create, :go_toppage]
 
   def index
-    set_item
     @order_address = OrderAddress.new
   end
 
   def create
-      set_item
       @order_address = OrderAddress.new(order_params)
     if @order_address.valid?
       pay_item
@@ -23,7 +22,7 @@ class OrdersController < ApplicationController
 
   def go_toppage
     set_item
-    if current_user.id == @item.user_id && @item.order.present?
+    if current_user.id == @item.user_id || @item.order.present?
       redirect_to root_path
     end
   end
