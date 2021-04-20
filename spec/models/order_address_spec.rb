@@ -11,6 +11,10 @@ RSpec.describe OrderAddress, type: :model do
       it 'postal_code,prefecture_id,city,address_number,phone_number,tokenがあれば購入できる' do
         expect(@order_address).to be_valid
       end
+      it 'buinldingがなくても購入できる' do
+        @order_address.building = ''
+        expect(@order_address).to be_valid
+      end
     end
 
     context '商品購入できないとき' do
@@ -30,7 +34,7 @@ RSpec.describe OrderAddress, type: :model do
         expect(@order_address.errors.full_messages).to include("Prefecture can't be blank")
       end
       it 'prefecture_idが1だと購入できない' do
-        @order_address.prefecture_id = '1'
+        @order_address.prefecture_id = 1
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include("Prefecture must be other than 1")
       end
@@ -54,10 +58,25 @@ RSpec.describe OrderAddress, type: :model do
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include("Phone number is too long (maximum is 11 characters)")
       end
+      it 'phone_numberは英数混合では登録できない' do
+        @order_address.phone_number = 'abcde01234'
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("Phone number is invalid")
+      end
       it 'tokenが空では購入できない' do
         @order_address.token = ''
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include("Token can't be blank")
+      end
+      it 'user_idが空では登録できない' do
+        @order_address.user_id = ''
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("User can't be blank")
+      end
+      it 'item_idが空では登録できない' do
+        @order_address.item_id = ''
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("Item can't be blank")
       end
     end
   end
